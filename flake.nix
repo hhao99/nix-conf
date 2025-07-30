@@ -8,14 +8,12 @@
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs }:
-  let
-    
-  in
+  
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#emach
     darwinConfigurations."emach" = nix-darwin.lib.darwinSystem {
-      modules = [ ./configuration ];
+      modules = [ ./configuration.nix ];
     };
   };
 }
