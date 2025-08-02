@@ -1,9 +1,9 @@
 {
-  description = "Example nix-darwin system flake";
+  description = "Jijiuhao's nix-darwin system flake";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
-    nix-darwin.url = "github:nix-darwin/nix-darwin/master";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-25.05-darwin";
+    nix-darwin.url = "github:nix-darwin/nix-darwin/nix-darwin-25.05";
     nix-darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # home-manager
@@ -12,28 +12,28 @@
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, ... }:
-    let
-      system = "aarch64-darwin"; # Change this to your system architecture if needed
-      pkgs = import nixpkgs {
-        inherit system;
-        overlays = [ nix-darwin.overlays.home-manager ];
-      };
-      nix-darwin-lib = import nix-darwin.lib { inherit pkgs; };
-    in
+   
   
   {
     # Build darwin flake using:
     # $ darwin-rebuild build --flake .#emach
-    darwinConfigurations."emach" = nix-darwin.lib.darwinSystem {
-      modules = [ 
-        ./configuration.nix 
-        home-manager.darwinModules.home-manager 
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.emach = import ./home.nix;
-        }
+    darwinConfigurations = {
+      "emach" = nix-darwin.lib.darwinSystem {
+        system = "aarch64-darwin"; # Change this to your system architecture if needed
+        modules = [
+          ./darwin.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager = {
+              useGlobalPkgs = true;
+              useUserPackages = true;
+              users."jijiuhao" = import ./home.nix;
+            };
+            users.users.jijiuhao.home = "/Users/jijiuhao";
+          }
         ];
+        };
+      };
     };
-  };
+  
 }
