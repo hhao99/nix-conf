@@ -11,7 +11,15 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = inputs@{ self, nix-darwin, nixpkgs }:
+  outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, ... }:
+    let
+      system = "aarch64-darwin"; # Change this to your system architecture if needed
+      pkgs = import nixpkgs {
+        inherit system;
+        overlays = [ nix-darwin.overlays.home-manager ];
+      };
+      nix-darwin-lib = import nix-darwin.lib { inherit pkgs; };
+    in
   
   {
     # Build darwin flake using:
@@ -19,8 +27,7 @@
     darwinConfigurations."emach" = nix-darwin.lib.darwinSystem {
       modules = [ 
         ./configuration.nix 
-        
-        nix-darwin.modules.home-manager
+        home-manager.darwinModules.home-manager 
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
