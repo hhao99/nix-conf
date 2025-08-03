@@ -7,7 +7,7 @@
     darwin.inputs.nixpkgs.follows = "nixpkgs";
 
     # home-manager
-    home-manager.url = "github:nix-community/home-manager";
+    home-manager.url = "github:nix-community/home-manager/release-25.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
   };
 
@@ -19,6 +19,13 @@
       system = "aarch64-darwin";
       modules = [
         ./darwin.nix
+
+        home-manager.darwinModules.home-manager
+        {
+          home-manager.useGlobalPkgs = true;
+          home-manager.useUserPackages = true;
+          home-manager.users.jijiuhao = import ./home.nix;
+        }
       ];
     };
     

@@ -10,9 +10,6 @@
       programs.zsh.enable = true;
 
       environment.systemPackages = with pkgs; [
-        git
-        wget
-        curl
-        vim
+       
       ];
     }
