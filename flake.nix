@@ -12,7 +12,18 @@
   };
 
   outputs = inputs@{ self, nix-darwin, nixpkgs, home-manager, ... }:
-   
+  let 
+    configuration = {pkgs,...} : {
+      
+      
+      nix.settings.experimental-features = "nix-command flakes";
+      system.stateVersion = 6;
+
+      # The platform the configuration will be used on.
+      nixpkgs.hostPlatform = "aarch64-darwin";
+
+    };
+  in
   
   {
     # Build darwin flake using:
@@ -21,7 +32,7 @@
       "emach" = nix-darwin.lib.darwinSystem {
         system = "aarch64-darwin"; # Change this to your system architecture if needed
         modules = [
-          ./darwin.nix
+          configuration
           home-manager.nixosModules.home-manager
           {
             home-manager = {
