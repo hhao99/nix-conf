@@ -8,4 +8,11 @@
       users.users.jijiuhao.home = "/Users/jijiuhao";
 
       programs.zsh.enable = true;
+
+      environment.systemPackages = with pkgs; [
+        git
+        wget
+        curl
+        vim
+      ];
     }
