@@ -12,4 +12,12 @@
       environment.systemPackages = with pkgs; [
        
       ];
+
+
+  # Keyboard
+  system.keyboard.enableKeyMapping = true;
+  system.keyboard.remapCapsLockToEscape = true;
+
+  # Add ability to used TouchID for sudo authentication
+  security.pam.enableSudoTouchIdAuth = true;
     }
