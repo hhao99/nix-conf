@@ -19,6 +19,8 @@
       system = "aarch64-darwin";
       modules = [
         ./hosts/darwin.nix
+        ./hosts/nix-core.nix
+
 
         home-manager.darwinModules.home-manager
         {
