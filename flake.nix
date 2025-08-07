@@ -18,13 +18,12 @@
     darwinConfigurations."emach" = darwin.lib.darwinSystem {
       system = "aarch64-darwin";
       modules = [
-        ./darwin.nix
+        ./hosts/darwin.nix
 
         home-manager.darwinModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
-          home-manager.users.jijiuhao = import ./home.nix;
         }
       ];
     };
